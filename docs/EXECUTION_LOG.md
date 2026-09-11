@@ -117,3 +117,11 @@ Build and host results do not establish physical pairing, bond restoration, Appl
 - `./gradlew :navcore:test :navapp:assembleDebug :navapp:lintDebug :app:assembleDebug :core:test` BUILD SUCCESSFUL. navcore unit tests pass (protocol vectors + 9 parser cases); navapp lint 0 errors (24 SetTextI18n programmatic-UI warnings, same accepted pattern as bridge); existing `:app` + `:core` still build/test with the new modules included.
 - Added `ic_nav` arrow icon + backup/data-extraction rules mirrored from bridge (cleared MissingApplicationIcon/DataExtractionRules warnings).
 - `dist/nav-turns-debug.apk` (vCode 1/vName 0.1, min 26/target 36, no INTERNET permission). FAP install still pending — Flipper unplugged; remaining: USB install + live Maps drive test + helper pairing.
+
+## Flipper Navigator GitHub publication — 2026-09-11
+- User named the project **Flipper Navigator** and asked for a phone-downloadable GitHub home. Created public `villenull/flipper-navigator` via `gh repo create` (exit 0) from isolated checkout `/tmp/nav-publish` (source only: dist/.cache/build excluded, matching house convention); commit `35cc885`, pushed main (exit 0). Root README rewritten for the navigator (install, pairing lessons, layout, sibling link); no global git identity change.
+- `gh release create v0.1 --target main --prerelease` exit 0 with `nav-turns-debug.apk` + `nav_turns-fw1.4.3-api87.1.fap`. Unauthenticated curl downloads byte-match local files (cmp exit 0). Release: https://github.com/villenull/flipper-navigator/releases/tag/v0.1
+- Nav FAP on-device install still pending (Flipper present but serial ACL lapsed again; udev rule never landed).
+
+## Nav Turns FAP installed on device — 2026-09-11
+- After user re-applied the serial ACL, installed `/ext/apps/Bluetooth/nav_turns.fap` (16,868 B) via CLI `write_chunk` (17 chunks; the pre-remove `file/dir not exist` was the expected fresh-install case). Device md5 `0f8fe17a42362411019c273c871781cc` matches local. `now_playing.fap` (23,404 B v1.2) and all user apps untouched. Next: user opens Nav Turns, air check for `NV…` advert, APK install from GitHub, live Maps drive test.

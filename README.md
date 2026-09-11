@@ -1,63 +1,93 @@
-# Flipper Navigator — Google Maps turn-by-turn on Flipper Zero
+<img src="docs/media/nav-icon.svg" width="72" height="72" align="left" alt="Flipper Next Turn icon">
 
-A standalone Flipper Zero app that shows live navigation on the 128×64 screen:
-**next road name, turn arrow, and distance to the turn**, fed by a small
-Android helper that reads the Google Maps navigation notification. No root,
-no firmware fork, no account, no Internet permission, no cloud.
+# Flipper Next Turn
 
-> **Status: hardware-unverified preview.** The Flipper app builds clean
-> against official firmware 1.4.3 / API 87.1 and the Android app builds
-> clean with passing unit tests, but the live Maps drive test has not run
-> yet. Expect rough edges; please report them.
+**Your next turn, on your Flipper.** Live Google Maps maneuvers — road name, turn arrow, and distance — on the pocket display.
 
-## Download (v0.1)
+**Bluetooth · Navigation** &nbsp; | &nbsp; **Release v0.1** &nbsp; | &nbsp; **Flipper Zero + Android 8.0+**
 
-- Android helper: `nav-turns-debug.apk` (installable dev build, v0.1)
-- Flipper app: `nav_turns-fw1.4.3-api87.1.fap`
+### Download & install
 
-Get both from the
-[releases page](https://github.com/villenull/flipper-navigator/releases/tag/v0.1).
+**[⬇ Download the Android app](https://github.com/villenull/flipper-next-turn/releases/download/v0.1/nav-turns-debug.apk)** — open this link on your phone, download, and tap to install.
 
-## Install
+**[⬇ Download the Flipper app (.fap)](https://github.com/villenull/flipper-next-turn/releases/download/v0.1/nav_turns-fw1.4.3-api87.1.fap)** · [All release files](https://github.com/villenull/flipper-next-turn/releases/tag/v0.1) · [Checksums](https://github.com/villenull/flipper-next-turn/releases/download/v0.1/SHA256SUMS)
 
-**Phone** (Android 8+, min SDK 26): install the APK normally
-(`adb install -r nav-turns-debug.apk` also works). Open **Nav Turns**:
-grant Bluetooth access, enable notification access. Sideloaded apps may
-need the system App info → `⋮` → **Allow restricted settings** first —
-Android blocks notification access otherwise.
+> **Preview release.** Built for official Flipper firmware **1.4.3 / API 87.1**. The live Maps drive test has not run yet.
 
-**Flipper** (official firmware 1.4.3): copy the `.fap` to the SD card at
-`apps/Bluetooth/nav_turns.fap` (qFlipper drag-and-drop works), then open
-**Apps → Bluetooth → Nav Turns**. Before using it, disconnect the official
-Flipper app's active connection; it reconnects normally after you exit.
+## Screen preview
 
-## Pair and drive
+![Flipper Next Turn orange concept render with turn arrow on the left and maneuver details on the right](docs/media/nav-next-turn.png)
 
-1. Flipper app open on `Waiting for route`. Phone Bluetooth on.
-2. Helper → **Find Nav Turns devices** → tap the `NV…` entry → **Start**.
-3. Confirm the 6-digit pairing code on **both** screens (the phone popup
-   sometimes hides in the notification shade — pull it down).
-4. Start navigation in Google Maps. The Flipper shows the next maneuver;
-   distance counts down as you drive. **OK** on the Flipper re-requests a
-   refresh; **long Back** exits and restores the normal Bluetooth profile.
+Simulated layout preview following the production renderer geometry. The actual 128×64 display is coarser; see the [native 128×64 example](docs/media/nav-next-turn-native.png).
 
-Only Google Maps navigation notifications are read; nothing is stored,
-uploaded, or logged beyond on-device redacted diagnostics.
+## What does Flipper Next Turn do?
 
-## Source layout
+Flipper Next Turn turns your Flipper Zero into a handlebar-style navigator. A companion Android helper reads the Google Maps navigation notification and sends each maneuver over a dedicated Bluetooth connection.
 
-- `flipper/nav_turns/` — the Flipper app (protocol, model, renderer,
-  custom BLE GATT profile)
-- `android/navcore/`, `android/navapp/` — protocol/parser core and the
-  helper APK (notification scraper, BLE central, foreground service)
-- `protocol/nav_*.json/.py` — NAV/1 constants, reference codec, frozen
-  golden vectors, parser spec
-- `flipper/host_tests/test_nav.c` — C vectors/splits/model/input tests
+- **Turn arrow** for 14 maneuver types: left/right, slight/sharp, U-turn, roundabout, exit, merge, keep, ferry, arrival.
+- **Road name and instruction** beside the arrow, scrolling when long.
+- **Big live distance** counting down to the maneuver.
+- **Rerouting and arrival states** straight from Maps.
 
-Wire protocol NAV/1 reuses the proven FNP1/v1 frame envelope on its own
-BLE service (`04b78bcf-…`). See `protocol/nav_constants.json`.
+Google Maps and the official Flipper Android app stay unchanged. This is a separate APK and external FAP; it does not require a firmware fork.
 
-Sibling project: [flipper-now-playing](https://github.com/villenull/flipper-now-playing)
-shows Apple Music playback on the Flipper using the same architecture.
+## How to use
 
-License: see `LICENSE`. Built against official Flipper firmware 1.4.3.
+1. **Install the Android app.** Download the APK above on your phone and tap it. If Android prompts, allow installation from your browser.
+2. **Grant access.** Allow Bluetooth access, then enable notification access for **Nav Turns**. Sideloaded apps may need the system App info → `⋮` → **Allow restricted settings** first, or Android blocks the toggle.
+3. **Copy the Flipper app.** With Nav Turns closed, use qFlipper to copy the FAP to `SD Card/apps/Bluetooth/nav_turns.fap`. No firmware flashing is involved.
+4. **Open Nav Turns on the Flipper.** Go to **Apps → Bluetooth → Nav Turns**. Disconnect any active management connection in the official Flipper Android app.
+5. **Connect from the helper.** Tap **Find Nav Turns devices**, select your device, and tap **Start**. Confirm the matching pairing code on both devices (the phone popup sometimes hides in the notification shade — pull it down).
+6. **Navigate.** Start driving directions in Google Maps. Each maneuver appears once the connection is ready.
+
+The helper's ongoing notification includes **Stop**. After a reboot or force-stop, open the helper and press Start again.
+
+## Controls
+
+| Flipper button | Action |
+|---|---|
+| OK | Re-request the current maneuver |
+| Hold Back | Exit and restore the default Bluetooth profile |
+
+Only the current maneuver is available from the Maps feed, so there is no next-turn paging; Up/Down/Left/Right are reserved.
+
+## Privacy & requirements
+
+- Android **8.0 / API 26 or newer**; Bluetooth and user-enabled notification access.
+- Flipper Zero with an SD card and **official firmware 1.4.3 / API 87.1**.
+- No Internet permission, backend, account, root, analytics, or location-history database. Only Google Maps navigation notifications are read.
+- The app uses its own Bluetooth identity (`NV…` advert) and bond storage.
+
+## Validation status
+
+The local build passes **14 NAV/1 golden vectors**, **9 parser cases**, **C ASan/UBSan** (vectors, splits, every-bit corruption, model, input, scroll), Kotlin unit tests, and Android lint with no errors. The FAP imports only officially exported API symbols.
+
+**Still awaiting physical acceptance:** live Maps drive test, pairing, reconnection, and endurance. Protocol details: `protocol/nav_constants.json`.
+
+## Changelog
+
+### v0.1
+
+- Initial preview: NAV/1 wire protocol, Flipper renderer with 14 turn arrows, Maps notification scraper, dedicated BLE service with numeric-comparison pairing.
+- Short advert name and startup advertising self-check, carried over from the Now Playing radio fix.
+- Right-turn paging intentionally omitted: the feed exposes one maneuver at a time.
+
+## Build from source
+
+```sh
+./scripts/bootstrap.py --accept-android-sdk-license
+source scripts/env.sh && cd android && ./gradlew :navcore:test :navapp:assembleDebug
+(cd .cache/flipper-firmware && ./fbt fap_nav_turns)
+```
+
+Read the Android SDK license before supplying its acceptance flag. Toolchains are pinned in [`.toolchains.lock.json`](.toolchains.lock.json). Builds never flash firmware or install onto a device.
+
+## Credits & references
+
+- [Official Flipper firmware](https://github.com/flipperdevices/flipperzero-firmware): exported API, BLE infrastructure, Canvas and native fonts.
+- [Android notification-listener APIs](https://developer.android.com/reference/android/service/notification/NotificationListenerService): navigation notification access.
+- Sibling project [flipper-now-playing](https://github.com/villenull/flipper-now-playing): architecture, radio lessons, and this listing's organization.
+
+The catalog icon and orange preview are generated by [`docs/media/render_nav.py`](docs/media/render_nav.py) following the production renderer geometry; they are simulated previews, not device captures.
+
+[GPL-3.0 license](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Report an issue](https://github.com/villenull/flipper-next-turn/issues)
