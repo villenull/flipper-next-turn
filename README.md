@@ -4,13 +4,13 @@
 
 **Your next turn, on your Flipper.** Live Google Maps maneuvers — road name, turn arrow, and distance — on the pocket display.
 
-**Bluetooth · Navigation** &nbsp; | &nbsp; **Release v0.6** &nbsp; | &nbsp; **Flipper Zero + Android 8.0+**
+**Bluetooth · Navigation** &nbsp; | &nbsp; **Release v0.7** &nbsp; | &nbsp; **Flipper Zero + Android 8.0+**
 
 ### Download & install
 
-**[⬇ Download the Android app](https://github.com/villenull/flipper-next-turn/releases/download/v0.6/flipper-now-debug.apk)** — one **Flipper Now** helper for both Now Playing and Now Turning. Open this link on your phone, download, and tap to install (it upgrades the old Now Playing helper in place).
+**[⬇ Download the Android app](https://github.com/villenull/flipper-next-turn/releases/download/v0.7/flipper-now-debug.apk)** — one **Flipper Now** helper for both Now Playing and Now Turning. Open this link on your phone, download, and tap to install (it upgrades the old Now Playing helper in place).
 
-**[⬇ Download the Flipper app (.fap)](https://github.com/villenull/flipper-next-turn/releases/download/v0.2/nav_turns-fw1.4.3-api87.1.fap)** · [All release files](https://github.com/villenull/flipper-next-turn/releases/tag/v0.6) · [Checksums](https://github.com/villenull/flipper-next-turn/releases/download/v0.4/SHA256SUMS)
+**[⬇ Download the Flipper app (.fap)](https://github.com/villenull/flipper-next-turn/releases/download/v0.2/nav_turns-fw1.4.3-api87.1.fap)** · [All release files](https://github.com/villenull/flipper-next-turn/releases/tag/v0.7) · [Checksums](https://github.com/villenull/flipper-next-turn/releases/download/v0.4/SHA256SUMS)
 
 > **Preview release.** Built for official Flipper firmware **1.4.3 / API 87.1**. The live Maps drive test has not run yet.
 
@@ -37,7 +37,7 @@ Google Maps and the official Flipper Android app stay unchanged. This is a separ
 2. **Enable everything (one tap).** Tap **1 · ENABLE EVERYTHING**, approve the Bluetooth prompts, and enable notification access for **Flipper Now** in the system screen it opens. Sideloaded apps may need the system App info → `⋮` → **Allow restricted settings** first, or Android blocks the toggle.
 3. **Copy the Flipper app.** With Nav Turns closed, use qFlipper to copy the FAP to `SD Card/apps/Bluetooth/nav_turns.fap`. No firmware flashing is involved.
 4. **Open Now Turning on the Flipper.** Go to **Apps → Bluetooth → Now Turning** (one companion at a time — exit Now Playing first). Disconnect any active management connection in the official Flipper Android app.
-5. **Pair each companion (one tap each).** Tap **2 · PAIR NOW PLAYING** and **3 · PAIR NOW TURNING** — the helper scans, picks the strongest match, saves it and starts. Confirm the pairing code on both screens. Open only the matching app on the Flipper first (one radio at a time). Confirm the matching pairing code on both devices (the phone popup sometimes hides in the notification shade — pull it down).
+5. **Pair (one tap).** Tap **PAIR FLIPPER** — the helper scans for both companion signals, recognizes which app is open on the Flipper, saves it and starts. Confirm the pairing code on both screens. Open only one companion app on the Flipper at a time. Confirm the matching pairing code on both devices (the phone popup sometimes hides in the notification shade — pull it down).
 6. **Navigate.** Start driving directions in Google Maps. Each maneuver appears once the connection is ready.
 
 The helper's ongoing notification includes **Stop**. After a reboot or force-stop, open the helper and press Start again.
@@ -65,6 +65,10 @@ The local build passes **14 NAV/1 golden vectors**, **9 parser cases**, **C ASan
 **Still awaiting physical acceptance:** live Maps drive test, pairing, reconnection, and endurance. Protocol details: `protocol/nav_constants.json`.
 
 ## Changelog
+
+### v0.7
+
+- Single PAIR FLIPPER button: scans both signals, auto-classifies by service UUID.
 
 ### v0.6
 
