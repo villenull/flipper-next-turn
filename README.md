@@ -4,13 +4,13 @@
 
 **Your next turn, on your Flipper.** Live Google Maps maneuvers — road name, turn arrow, and distance — on the pocket display.
 
-**Bluetooth · Navigation** &nbsp; | &nbsp; **Release v0.9** &nbsp; | &nbsp; **Flipper Zero + Android 8.0+**
+**Bluetooth · Navigation** &nbsp; | &nbsp; **Release v1.0** &nbsp; | &nbsp; **Flipper Zero + Android 8.0+**
 
 ### Download & install
 
-**[⬇ Download the Android app](https://github.com/villenull/flipper-next-turn/releases/download/v0.9/flipper-now-debug.apk)** — one **Flipper Now** helper for both Now Playing and Now Turning. Open this link on your phone, download, and tap to install (it upgrades the old Now Playing helper in place).
+**[⬇ Download the Android app](https://github.com/villenull/flipper-next-turn/releases/download/v1.0/flipper-now-debug.apk)** — one **Flipper Now** helper for both Now Playing and Now Turning. Open this link on your phone, download, and tap to install (it upgrades the old Now Playing helper in place).
 
-**[⬇ Download the Flipper app (.fap)](https://github.com/villenull/flipper-next-turn/releases/download/v0.2/nav_turns-fw1.4.3-api87.1.fap)** · [All release files](https://github.com/villenull/flipper-next-turn/releases/tag/v0.9) · [Checksums](https://github.com/villenull/flipper-next-turn/releases/download/v0.4/SHA256SUMS)
+**[⬇ Download the Flipper app (.fap)](https://github.com/villenull/flipper-next-turn/releases/download/v0.2/nav_turns-fw1.4.3-api87.1.fap)** · [All release files](https://github.com/villenull/flipper-next-turn/releases/tag/v1.0) · [Checksums](https://github.com/villenull/flipper-next-turn/releases/download/v0.4/SHA256SUMS)
 
 > **Preview release.** Built for official Flipper firmware **1.4.3 / API 87.1**. The live Maps drive test has not run yet.
 
@@ -65,6 +65,10 @@ The local build passes **14 NAV/1 golden vectors**, **9 parser cases**, **C ASan
 **Still awaiting physical acceptance:** live Maps drive test, pairing, reconnection, and endurance. Protocol details: `protocol/nav_constants.json`.
 
 ## Changelog
+
+### v1.0
+
+- Status-box UI: permission box plus half-width companion boxes (grey/amber/green).
 
 ### v0.9
 
